@@ -1,272 +1,264 @@
-entity_name,alias,sanction_basis,date_listed,nationality_or_country
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
-,,,,
+Entity Type	Full Name	Alias/AKA	Nationality	Country	Sanctioned Date	Maintained Date	Lifted Date	Current Status	Issuing Authority	Source File
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
+								Active		AMLC Resolution
