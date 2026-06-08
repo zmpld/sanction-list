@@ -78,12 +78,26 @@ Rules:
 `;
 
 function parseEntitiesResponse(text) {
+  if (!text || text.trim().length === 0) {
+    throw new Error('Gemini returned empty response');
+  }
+
   const cleaned = text
     .replace(/```json/gi, '')
     .replace(/```/g, '')
     .trim();
 
-  const parsed = JSON.parse(cleaned);
+  if (!cleaned || cleaned.length === 0) {
+    throw new Error('Gemini response is empty after cleanup');
+  }
+
+  let parsed;
+  try {
+    parsed = JSON.parse(cleaned);
+  } catch (error) {
+    console.error('JSON parse error. Response text:', cleaned.substring(0, 500));
+    throw new Error(`Failed to parse Gemini response: ${error.message}`);
+  }
 
   if (!Array.isArray(parsed)) {
     throw new Error('Gemini response is not a JSON array');
@@ -114,7 +128,7 @@ async function extractSanctionEntitiesFromPdf(
   });
 
   const response = await result.response;
-  const text = response.text();
+  const text = await response.text();
 
   return parseEntitiesResponse(text);
 }

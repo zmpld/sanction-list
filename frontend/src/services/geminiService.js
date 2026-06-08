@@ -81,16 +81,53 @@ Rules:
     }
   );
 
-  const data = await res.json();
-
-  if (!res.ok) {
-    console.error(data);
-
+  let data;
+  try {
+    data = await res.json();
+  } catch (error) {
     throw new Error(
-      data.error?.message ||
-        "Gemini API Error"
+      `Failed to parse Gemini response: ${error.message}`
     );
   }
 
-  return data;
+  if (!res.ok) {
+    console.error("Gemini API error:", data);
+    throw new Error(
+      data.error?.message ||
+        `Gemini API Error: ${res.status}`
+    );
+  }
+
+  // Extract the text content from Gemini response
+  if (
+    !data.candidates ||
+    !data.candidates[0] ||
+    !data.candidates[0].content ||
+    !data.candidates[0].content.parts ||
+    !data.candidates[0].content.parts[0]
+  ) {
+    console.error("Invalid Gemini response structure:", data);
+    throw new Error("Invalid response structure from Gemini");
+  }
+
+  const textContent = 
+    data.candidates[0].content.parts[0].text;
+
+  if (!textContent) {
+    throw new Error("Gemini returned empty content");
+  }
+
+  // Parse and return the JSON array
+  try {
+    const parsed = JSON.parse(textContent);
+    return parsed;
+  } catch (error) {
+    console.error(
+      "Failed to parse Gemini JSON:",
+      textContent.substring(0, 500)
+    );
+    throw new Error(
+      `Failed to parse Gemini JSON: ${error.message}`
+    );
+  }
 }

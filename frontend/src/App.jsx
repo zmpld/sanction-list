@@ -303,12 +303,7 @@ export default function App() {
           `Gemini response received for ${file.name}`
         );
 
-        const text =
-          result.candidates[0].content
-            .parts[0].text;
-
-        let parsed =
-          JSON.parse(text);
+        let parsed = result;
 
         parsed = parsed.map((item) =>
           transformExtractedEntity(item, file.name)
