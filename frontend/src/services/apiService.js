@@ -10,8 +10,12 @@ export async function fetchSanctionsData() {
     throw new Error('Failed to load sanctions data');
   }
 
-  const data = await res.json();
-  return data.records || [];
+  try {
+    const data = await res.json();
+    return data.records || [];
+  } catch (error) {
+    throw new Error(`Invalid response format: ${error.message}`);
+  }
 }
 
 export async function fetchAutomationStatus() {
@@ -23,7 +27,11 @@ export async function fetchAutomationStatus() {
     throw new Error('Failed to load automation status');
   }
 
-  return res.json();
+  try {
+    return await res.json();
+  } catch (error) {
+    throw new Error(`Invalid response format: ${error.message}`);
+  }
 }
 
 export async function runAutomation(options = {}) {
@@ -38,15 +46,23 @@ export async function runAutomation(options = {}) {
     }
   );
 
-  const data = await res.json();
-
   if (!res.ok) {
-    throw new Error(
-      data.error || 'Automation failed'
-    );
+    let errorMessage = 'Automation failed';
+    try {
+      const data = await res.json();
+      errorMessage = data.error || errorMessage;
+    } catch (parseError) {
+      console.error('Failed to parse error response:', parseError);
+      errorMessage = `Automation failed with status ${res.status}`;
+    }
+    throw new Error(errorMessage);
   }
 
-  return data;
+  try {
+    return await res.json();
+  } catch (error) {
+    throw new Error(`Invalid response format: ${error.message}`);
+  }
 }
 
 export async function cancelAutomation() {
@@ -55,13 +71,14 @@ export async function cancelAutomation() {
     { method: 'POST' }
   );
 
-  const data = await res.json();
-
   if (!res.ok) {
-    throw new Error(
-      data.error || 'Failed to cancel automation'
-    );
+    throw new Error('Failed to cancel automation');
   }
 
-  return data;
+  try {
+    const data = await res.json();
+    return data;
+  } catch (error) {
+    throw new Error(`Invalid response format: ${error.message}`);
+  }
 }

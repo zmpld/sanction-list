@@ -79,6 +79,7 @@ Rules:
 
 function parseEntitiesResponse(text) {
   if (!text || text.trim().length === 0) {
+    console.error('Gemini returned empty response');
     throw new Error('Gemini returned empty response');
   }
 
@@ -88,6 +89,7 @@ function parseEntitiesResponse(text) {
     .trim();
 
   if (!cleaned || cleaned.length === 0) {
+    console.error('Gemini response is empty after cleanup');
     throw new Error('Gemini response is empty after cleanup');
   }
 
@@ -96,10 +98,12 @@ function parseEntitiesResponse(text) {
     parsed = JSON.parse(cleaned);
   } catch (error) {
     console.error('JSON parse error. Response text:', cleaned.substring(0, 500));
+    console.error('Full response length:', cleaned.length);
     throw new Error(`Failed to parse Gemini response: ${error.message}`);
   }
 
   if (!Array.isArray(parsed)) {
+    console.error('Response is not an array:', typeof parsed, parsed);
     throw new Error('Gemini response is not a JSON array');
   }
 
@@ -109,28 +113,57 @@ function parseEntitiesResponse(text) {
 async function extractSanctionEntitiesFromPdf(
   pdfBase64
 ) {
-  const result = await getModel().generateContent({
-    contents: [
-      {
-        parts: [
-          {
-            inlineData: {
-              mimeType: 'application/pdf',
-              data: pdfBase64,
+  try {
+    const result = await getModel().generateContent({
+      contents: [
+        {
+          parts: [
+            {
+              inlineData: {
+                mimeType: 'application/pdf',
+                data: pdfBase64,
+              },
             },
-          },
-          {
-            text: EXTRACTION_PROMPT,
-          },
-        ],
-      },
-    ],
-  });
+            {
+              text: EXTRACTION_PROMPT,
+            },
+          ],
+        },
+      ],
+    });
 
-  const response = await result.response;
-  const text = await response.text();
+    if (!result) {
+      throw new Error('generateContent returned no result');
+    }
 
-  return parseEntitiesResponse(text);
+    const response = await result.response;
+    
+    if (!response) {
+      throw new Error('Gemini API returned no response object');
+    }
+
+    // The SDK might return JSON directly or as text
+    let text;
+    
+    try {
+      text = await response.text();
+    } catch (textError) {
+      console.error('Error getting response text:', textError);
+      throw new Error(`Failed to get response text: ${textError.message}`);
+    }
+
+    if (!text) {
+      throw new Error('Response text is empty');
+    }
+
+    console.log('Raw response (first 200 chars):', text.substring(0, 200));
+
+    return parseEntitiesResponse(text);
+  } catch (error) {
+    console.error('Extraction error:', error.message);
+    console.error('Stack trace:', error.stack);
+    throw new Error(`PDF extraction failed: ${error.message}`);
+  }
 }
 
 module.exports = {
