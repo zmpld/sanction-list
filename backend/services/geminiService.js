@@ -2,18 +2,32 @@ const {
   GoogleGenerativeAI,
 } = require('@google/generative-ai');
 
-const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY
-);
+let model;
 
-const model = genAI.getGenerativeModel({
-  model: 'gemini-3.1-flash-lite',
-});
+function getModel() {
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error(
+      'GEMINI_API_KEY is not set in backend/.env'
+    );
+  }
+
+  if (!model) {
+    const genAI = new GoogleGenerativeAI(
+      process.env.GEMINI_API_KEY
+    );
+
+    model = genAI.getGenerativeModel({
+      model: 'gemini-3.1-flash-lite',
+    });
+  }
+
+  return model;
+}
 
 async function askGemini(prompt) {
   try {
     const result =
-      await model.generateContent(prompt);
+      await getModel().generateContent(prompt);
 
     const response = await result.response;
 

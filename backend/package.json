@@ -5,13 +5,17 @@
   "type": "commonjs",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "automation": "node scripts/runAutomation.js"
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.2",
+    "cheerio": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.6.1",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "node-cron": "^3.0.3",
+    "pdf-parse": "^1.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

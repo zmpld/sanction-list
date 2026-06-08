@@ -1,0 +1,49 @@
+const path = require('path');
+
+const AMLC_SOURCE_URL =
+  process.env.AMLC_SOURCE_URL ||
+  'http://www.amlc.gov.ph/laws/terrorism-financing/resolution-related-to-terrorism-financing';
+
+const AMLC_BASE_URL = 'http://www.amlc.gov.ph';
+
+const DATA_DIR = path.join(__dirname, '..', '..', 'data');
+
+const CSV_PATH = path.join(DATA_DIR, 'sanctions_list.csv');
+
+const PROCESSED_STATE_PATH = path.join(
+  DATA_DIR,
+  'processed_pdfs.json'
+);
+
+const RATE_LIMIT_DELAY_MS = Number(
+  process.env.RATE_LIMIT_DELAY_MS || 2000
+);
+
+const CRON_SCHEDULE =
+  process.env.CRON_SCHEDULE || '0 6 * * *';
+
+const CSV_COLUMNS = [
+  'Entity Type',
+  'Full Name',
+  'Alias/AKA',
+  'Nationality',
+  'Country',
+  'Sanctioned Date',
+  'Maintained Date',
+  'Lifted Date',
+  'Current Status',
+  'Issuing Authority',
+  'Source File',
+  'Source URL',
+];
+
+module.exports = {
+  AMLC_SOURCE_URL,
+  AMLC_BASE_URL,
+  DATA_DIR,
+  CSV_PATH,
+  PROCESSED_STATE_PATH,
+  RATE_LIMIT_DELAY_MS,
+  CRON_SCHEDULE,
+  CSV_COLUMNS,
+};
