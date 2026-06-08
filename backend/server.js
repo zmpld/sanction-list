@@ -29,9 +29,9 @@ app.get('/', (req, res) => {
 
 
 
-app.use('/api', sanctionsRoutes);
+app.use('/sanctions', sanctionsRoutes);
 
-app.use('/api/automation', automationRoutes);
+app.use('/automation', automationRoutes);
 
 
 
