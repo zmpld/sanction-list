@@ -2,83 +2,134 @@ const API_BASE =
   import.meta.env.VITE_API_URL || '/api';
 
 export async function fetchSanctionsData() {
-  const res = await fetch(
-    `${API_BASE}/automation/sanctions`
-  );
-
-  if (!res.ok) {
-    throw new Error('Failed to load sanctions data');
-  }
-
   try {
+    const res = await fetch(
+      `${API_BASE}/automation/sanctions`
+    );
+
+    const contentType = res.headers.get('content-type');
+
+    if (!res.ok) {
+      throw new Error(
+        `API returned ${res.status}: ${res.statusText}`
+      );
+    }
+
+    if (!contentType?.includes('application/json')) {
+      console.error(
+        'API returned non-JSON response:',
+        contentType,
+        res
+      );
+      throw new Error(
+        `Expected JSON but got ${contentType || 'unknown'} from ${res.url}`
+      );
+    }
+
     const data = await res.json();
     return data.records || [];
   } catch (error) {
-    throw new Error(`Invalid response format: ${error.message}`);
+    console.error('fetchSanctionsData error:', error);
+    throw new Error(
+      `Failed to load sanctions data: ${error.message}`
+    );
   }
 }
 
 export async function fetchAutomationStatus() {
-  const res = await fetch(
-    `${API_BASE}/automation/status`
-  );
-
-  if (!res.ok) {
-    throw new Error('Failed to load automation status');
-  }
-
   try {
+    const res = await fetch(
+      `${API_BASE}/automation/status`
+    );
+
+    const contentType = res.headers.get('content-type');
+
+    if (!res.ok) {
+      throw new Error(
+        `API returned ${res.status}: ${res.statusText}`
+      );
+    }
+
+    if (!contentType?.includes('application/json')) {
+      throw new Error(
+        `Expected JSON but got ${contentType || 'unknown'}`
+      );
+    }
+
     return await res.json();
   } catch (error) {
-    throw new Error(`Invalid response format: ${error.message}`);
+    console.error('fetchAutomationStatus error:', error);
+    throw new Error(
+      `Failed to load automation status: ${error.message}`
+    );
   }
 }
 
 export async function runAutomation(options = {}) {
-  const res = await fetch(
-    `${API_BASE}/automation/run`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(options),
-    }
-  );
-
-  if (!res.ok) {
-    let errorMessage = 'Automation failed';
-    try {
-      const data = await res.json();
-      errorMessage = data.error || errorMessage;
-    } catch (parseError) {
-      console.error('Failed to parse error response:', parseError);
-      errorMessage = `Automation failed with status ${res.status}`;
-    }
-    throw new Error(errorMessage);
-  }
-
   try {
-    return await res.json();
+    const res = await fetch(
+      `${API_BASE}/automation/run`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(options),
+      }
+    );
+
+    const contentType = res.headers.get('content-type');
+
+    if (!contentType?.includes('application/json')) {
+      console.error(
+        'Non-JSON response from /automation/run',
+        contentType,
+        res.status
+      );
+      throw new Error(
+        `Expected JSON but got ${contentType || 'unknown'} (status: ${res.status})`
+      );
+    }
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(
+        data.error || `Automation failed: ${res.status}`
+      );
+    }
+
+    return data;
   } catch (error) {
-    throw new Error(`Invalid response format: ${error.message}`);
+    console.error('runAutomation error:', error);
+    throw error;
   }
 }
 
 export async function cancelAutomation() {
-  const res = await fetch(
-    `${API_BASE}/automation/cancel`,
-    { method: 'POST' }
-  );
-
-  if (!res.ok) {
-    throw new Error('Failed to cancel automation');
-  }
-
   try {
-    const data = await res.json();
-    return data;
+    const res = await fetch(
+      `${API_BASE}/automation/cancel`,
+      { method: 'POST' }
+    );
+
+    const contentType = res.headers.get('content-type');
+
+    if (!res.ok) {
+      throw new Error(
+        `API returned ${res.status}: ${res.statusText}`
+      );
+    }
+
+    if (!contentType?.includes('application/json')) {
+      throw new Error(
+        `Expected JSON but got ${contentType || 'unknown'}`
+      );
+    }
+
+    return await res.json();
   } catch (error) {
-    throw new Error(`Invalid response format: ${error.message}`);
+    console.error('cancelAutomation error:', error);
+    throw error;
   }
 }
