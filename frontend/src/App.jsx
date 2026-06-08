@@ -16,6 +16,56 @@ import {
   cancelAutomation,
 } from './services/apiService';
 
+function transformExtractedEntity(entity, sourceFile) {
+  // Parse the sanction date if available
+  let santionSinceDay = '';
+  let santionSinceMonth = '';
+  let santionSinceYear = '';
+
+  if (entity.SanctionDate) {
+    const dateParts = entity.SanctionDate.split('-');
+    if (dateParts.length === 3) {
+      santionSinceYear = dateParts[0];
+      santionSinceMonth = dateParts[1];
+      santionSinceDay = dateParts[2];
+    }
+  }
+
+  return {
+    DataId: '',
+    VersionNumber: '1',
+    Title: entity.FullName || entity.LastName || '',
+    LastNameCorporateName:
+      entity.LastName || entity.FullName || '',
+    FirstName: entity.FirstName || '',
+    MiddleName: entity.MiddleName || '',
+    ReferenceNumber: '',
+    IndividualCorporateType: entity.EntityType || '',
+    WatchListType: entity.WatchListType || '',
+    Position: entity.Position || '',
+    WatchListSource: entity.Country || '',
+    Remarks: entity.Remarks || '',
+    CreatedDate: new Date().toISOString().split('T')[0],
+    UpdatedDate: new Date().toISOString().split('T')[0],
+    ContactPersonLastName: '',
+    ContactPersonFirstName: '',
+    Gender: '',
+    Deceased: '',
+    SantionSinceDay: santionSinceDay,
+    SantionSinceMonth: santionSinceMonth,
+    SantionSinceYear: santionSinceYear,
+    SantionToDay: '',
+    SanctionToMonth: '',
+    SantionToYear: '',
+    URL: '',
+    SourceNameLink: sourceFile,
+    Image: sourceFile,
+    AdditionalDate: '',
+    LastReviewedDate: new Date().toISOString().split('T')[0],
+    DJStatus: '',
+  };
+}
+
 export default function App() {
   const [files, setFiles] =
     useState([]);
@@ -260,10 +310,9 @@ export default function App() {
         let parsed =
           JSON.parse(text);
 
-        parsed = parsed.map((item) => ({
-          ...item,
-          'Source File': file.name,
-        }));
+        parsed = parsed.map((item) =>
+          transformExtractedEntity(item, file.name)
+        );
 
         allResults = [
           ...allResults,

@@ -108,10 +108,10 @@ async function readSanctionsCsv() {
 
 function entityKey(record) {
   return [
-    record['Source URL'] || '',
-    record['Full Name'] || '',
-    record['Alias/AKA'] || '',
-    record['Current Status'] || '',
+    record['URL'] || '',
+    record['Title'] || '',
+    record['ReferenceNumber'] || '',
+    record['WatchListType'] || '',
   ]
     .join('|')
     .toLowerCase();

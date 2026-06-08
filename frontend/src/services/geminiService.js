@@ -28,67 +28,44 @@ Return ONLY valid JSON array.
 Each object must contain exactly these keys:
 
 {
-  "Entity Type": "",
-  "Full Name": "",
-  "Alias/AKA": "",
+  "FullName": "",
+  "FirstName": "",
+  "MiddleName": "",
+  "LastName": "",
+  "EntityType": "",
   "Nationality": "",
   "Country": "",
-  "Sanctioned Date": "",
-  "Maintained Date": "",
-  "Lifted Date": "",
-  "Current Status": "",
-  "Issuing Authority": "",
-//   "File Source": ""
+  "WatchListType": "",
+  "SanctionDate": "",
+  "Position": "",
+  "Remarks": ""
 }
 
 Rules:
 
-- "Current Status" must be exactly one of:
+- "WatchListType" must be exactly one of:
   - "Sanctioned"
   - "Lifted"
   - "Maintained"
 
-- "Entity Type" must be exactly one of:
+- "EntityType" must be exactly one of:
   - "Individual"
   - "Organization"
   - "Vessel"
   - "Aircraft"
 
-- For Nationality:
-  - If country is "Philippines"
-  - nationality MUST be "Filipino"
-
-- Populate ONLY the relevant event date field.
-  Examples:
-  - If document is about sanction issuance:
-    fill ONLY "Sanctioned Date"
-
-  - If document is about sanction maintenance:
-    fill ONLY "Maintained Date"
-
-  - If document is about sanction lifting/removal:
-    fill ONLY "Lifted Date"
-
-- Leave unrelated date fields empty
-
-- Extract ALL available aliases
-
-- Extract ALL issuing authorities if available
-
+- "FullName" is the complete name/entity name
+- "FirstName", "MiddleName", "LastName" are parsed components (leave empty if not applicable)
+- "Nationality" and "Country" are the same for this context
+- "SanctionDate" is in YYYY-MM-DD format
+- Extract ALL available aliases in "Remarks"
 - Preserve exact spelling of names
-
 - Return ALL entities found in the PDF
-
 - Use empty string if unavailable
-
 - No markdown
-
 - No explanations
-
 - No extra text
-
 - Ensure JSON is complete and properly closed
-
 - Do not truncate output
 `,
               },

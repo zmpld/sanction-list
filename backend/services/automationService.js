@@ -26,6 +26,56 @@ const {
   RATE_LIMIT_DELAY_MS,
 } = require('../config/constants');
 
+function transformExtractedEntity(entity, sourceUrl, sourceFile) {
+  // Parse the sanction date if available
+  let santionSinceDay = '';
+  let santionSinceMonth = '';
+  let santionSinceYear = '';
+
+  if (entity.SanctionDate) {
+    const dateParts = entity.SanctionDate.split('-');
+    if (dateParts.length === 3) {
+      santionSinceYear = dateParts[0];
+      santionSinceMonth = dateParts[1];
+      santionSinceDay = dateParts[2];
+    }
+  }
+
+  return {
+    DataId: '',
+    VersionNumber: '1',
+    Title: entity.FullName || entity.LastName || '',
+    LastNameCorporateName:
+      entity.LastName || entity.FullName || '',
+    FirstName: entity.FirstName || '',
+    MiddleName: entity.MiddleName || '',
+    ReferenceNumber: '',
+    IndividualCorporateType: entity.EntityType || '',
+    WatchListType: entity.WatchListType || '',
+    Position: entity.Position || '',
+    WatchListSource: entity.Country || '',
+    Remarks: entity.Remarks || '',
+    CreatedDate: new Date().toISOString().split('T')[0],
+    UpdatedDate: new Date().toISOString().split('T')[0],
+    ContactPersonLastName: '',
+    ContactPersonFirstName: '',
+    Gender: '',
+    Deceased: '',
+    SantionSinceDay: santionSinceDay,
+    SantionSinceMonth: santionSinceMonth,
+    SantionSinceYear: santionSinceYear,
+    SantionToDay: '',
+    SanctionToMonth: '',
+    SantionToYear: '',
+    URL: sourceUrl,
+    SourceNameLink: sourceFile,
+    Image: sourceFile,
+    AdditionalDate: '',
+    LastReviewedDate: new Date().toISOString().split('T')[0],
+    DJStatus: '',
+  };
+}
+
 const automationState = {
   isRunning: false,
   cancelRequested: false,
@@ -216,11 +266,13 @@ async function runAutomation(options = {}) {
             pdfBase64
           );
 
-        const enriched = entities.map((entity) => ({
-          ...entity,
-          'Source File': link.title,
-          'Source URL': link.url,
-        }));
+        const enriched = entities.map((entity) =>
+          transformExtractedEntity(
+            entity,
+            link.url,
+            link.title
+          )
+        );
 
         newEntities.push(...enriched);
         summary.pdfsProcessed++;
