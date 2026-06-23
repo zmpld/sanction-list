@@ -32,6 +32,68 @@ npm run dev
 
 Open http://localhost:5173 and click **Fetch from AMLC Website**.
 
+**Both must be running locally.** The frontend calls `/api/*`, which Vite proxies to the backend on port 5000.
+
+## Desktop app (.exe) with Electron
+
+Package the full app as a Windows executable. Electron starts the backend automatically and opens the UI in a desktop window.
+
+### One-time setup
+
+```bash
+npm run install:all
+```
+
+Ensure API keys are set before building:
+
+- `backend/.env` — `GEMINI_API_KEY` (automation)
+- `frontend/.env` — `VITE_GEMINI_API_KEY` (manual PDF upload)
+
+### Run as desktop app (development)
+
+```bash
+npm run dev:electron
+```
+
+### Build Windows .exe installer
+
+```bash
+npm run build:exe
+```
+
+Output: `dist-electron/Sanction List Monitor Setup *.exe`
+
+### How the .exe works
+
+- Starts an embedded Express server on `127.0.0.1:58392`
+- Serves the built React UI and `/api/*` from one process
+- Stores data in `%APPDATA%/sanction-list-monitor/data/`
+- Copies `backend/.env` to `%APPDATA%/sanction-list-monitor/.env` on first launch (edit there to change settings)
+
+## Deploy to Vercel (frontend + backend)
+
+This repo includes `vercel.json` for a monorepo deploy:
+
+- Frontend: served at `/`
+- Backend: served at `/api/*` (Vercel adds the `/api` prefix automatically)
+
+Set these env vars in the Vercel project dashboard:
+
+| Variable | Service |
+|----------|---------|
+| `GEMINI_API_KEY` | backend |
+| `GITHUB_TOKEN`, `GITHUB_OWNER`, `GITHUB_REPO` | backend (optional) |
+
+No `VITE_API_URL` needed — defaults to `/api` on the same domain.
+
+## Deploy frontend + backend separately
+
+If the backend is on Render/Railway and frontend on Vercel:
+
+1. Deploy backend, note its URL (e.g. `https://sanction-list-api.onrender.com`)
+2. In Vercel frontend env: `VITE_API_URL=https://sanction-list-api.onrender.com`
+3. Enable CORS on the backend (already enabled)
+
 ## Manual CLI run
 
 ```bash

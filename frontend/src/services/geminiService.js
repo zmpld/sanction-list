@@ -1,133 +1,77 @@
-export async function analyzePDFWithGemini(
-  b64
-) {
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key=${import.meta.env.VITE_GEMINI_API_KEY}`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                inlineData: {
-                  mimeType:
-                    "application/pdf",
-                  data: b64,
+import { GoogleGenerativeAI } from '@google/generative-ai';
+
+const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+const ai = new GoogleGenerativeAI(apiKey);
+
+const watchlistSchema = {
+    type: "OBJECT",
+    properties: {
+        records: {
+            type: "ARRAY",
+            description: "List of targets actively sanctioned by this regulatory file.",
+            items: {
+                type: "OBJECT",
+                properties: {
+                    DataId: { type: "STRING" },
+                    VersionNumber: { type: "STRING" },
+                    Title: { type: "STRING" },
+                    LastNameCorporateName: { type: "STRING" },
+                    FirstName: { type: "STRING" },
+                    MiddleName: { type: "STRING" },
+                    ReferenceNumber: { type: "STRING", description: "The core sanction identifier number. Extract directly from the text or headers (e.g., 'TF-114', 'TF-112', 'TF-108')." },
+                    IndividualCorporateType: { type: "STRING" },
+                    WatchListType: { type: "STRING" },
+                    Position: { type: "STRING" },
+                    WatchListSource: { type: "STRING" },
+                    Remarks: { type: "STRING" },
+                    CreatedDate: { type: "STRING" },
+                    UpdatedDate: { type: "STRING" },
+                    Gender: { type: "STRING", description: "Must be 'Male' or 'Female' for individuals. Deduced via text context, pronouns, or common naming conventions. Use 'Unknown' for Corporate entities only." },
+                    Deceased: { type: "STRING" },
+                    SantionSinceDay: { type: "STRING" },
+                    SantionSinceMonth: { type: "STRING" },
+                    SantionSinceYear: { type: "STRING" },
+                    URL: { type: "STRING" },
+                    SourceNameLink: { type: "STRING" },
+                    LastReviewedDate: { type: "STRING" },
+                    DJStatus: { type: "STRING" }
                 },
-              },
-              {
-                text: `
-Extract ALL persons and entities mentioned in sanctions-related actions.
-
-Return ONLY valid JSON array.
-
-Each object must contain exactly these keys:
-
-{
-  "FullName": "",
-  "FirstName": "",
-  "MiddleName": "",
-  "LastName": "",
-  "EntityType": "",
-  "Nationality": "",
-  "Country": "",
-  "WatchListType": "",
-  "SanctionDate": "",
-  "Position": "",
-  "Remarks": ""
-}
-
-Rules:
-
-- "WatchListType" must be exactly one of:
-  - "Sanctioned"
-  - "Lifted"
-  - "Maintained"
-
-- "EntityType" must be exactly one of:
-  - "Individual"
-  - "Organization"
-  - "Vessel"
-  - "Aircraft"
-
-- "FullName" is the complete name/entity name
-- "FirstName", "MiddleName", "LastName" are parsed components (leave empty if not applicable)
-- "Nationality" and "Country" are the same for this context
-- "SanctionDate" is in YYYY-MM-DD format
-- Extract ALL available aliases in "Remarks"
-- Preserve exact spelling of names
-- Return ALL entities found in the PDF
-- Use empty string if unavailable
-- No markdown
-- No explanations
-- No extra text
-- Ensure JSON is complete and properly closed
-- Do not truncate output
-`,
-              },
-            ],
-          },
-        ],
-        generationConfig: {
-          temperature: 0,
-          responseMimeType:
-            "application/json",
-        },
-      }),
+                required: ["LastNameCorporateName", "IndividualCorporateType", "ReferenceNumber", "Gender"]
+            }
+        }
     }
-  );
+};
 
-  let data;
-  try {
-    data = await res.json();
-  } catch (error) {
-    throw new Error(
-      `Failed to parse Gemini response: ${error.message}`
-    );
-  }
+export async function analyzePDFWithGemini(b64, sourceUrl = "") {
+    const model = ai.getGenerativeModel({
+        model: 'gemini-1.5-pro',
+        generationConfig: {
+            responseMimeType: 'application/json',
+            responseSchema: watchlistSchema,
+            temperature: 0.0 
+        }
+    });
+    
+    try {
+        const promptText = `
+            Perform a high-fidelity audit extraction of targeted assets and entities listed in this AMLC document.
+            
+            CRITICAL FILTRATION AND PARSING RULES:
+            1. EXCLUSION FILTER: Do NOT extract the names of the AMLC Council Members, Chairpersons, Governors, or Commissioners who are signing the document (e.g., Eli M. Remolona, Francisco Ed. Lim, Reynaldo Regalado). Do NOT extract the government agencies being ordered to execute the sanction (e.g., Land Transportation Office, Land Registration Authority, LTO, LRA, CAAP). Only extract the actual individuals or organizations being targeted/sanctioned.
+            2. REFERENCE NUMBER EXTRACTION: Find the formal document identification code. Look at the title headers or page markings for values like 'TF-114', 'TF-113', 'TF-112', or 'TF-108'.
+            3. BIOGRAPHICAL DEDUCTION: Do not leave human targets as 'Unknown' gender. Look closely at behavioral pronouns ('his aliases', 'her associate') or look up common cultural first names to determine 'Male' or 'Female'.
+        `;
 
-  if (!res.ok) {
-    console.error("Gemini API error:", data);
-    throw new Error(
-      data.error?.message ||
-        `Gemini API Error: ${res.status}`
-    );
-  }
+        const result = await model.generateContent([
+            { inlineData: { data: b64, mimeType: 'application/pdf' } },
+            promptText
+        ]);
 
-  // Extract the text content from Gemini response
-  if (
-    !data.candidates ||
-    !data.candidates[0] ||
-    !data.candidates[0].content ||
-    !data.candidates[0].content.parts ||
-    !data.candidates[0].content.parts[0]
-  ) {
-    console.error("Invalid Gemini response structure:", data);
-    throw new Error("Invalid response structure from Gemini");
-  }
-
-  const textContent = 
-    data.candidates[0].content.parts[0].text;
-
-  if (!textContent) {
-    throw new Error("Gemini returned empty content");
-  }
-
-  // Parse and return the JSON array
-  try {
-    const parsed = JSON.parse(textContent);
-    return parsed;
-  } catch (error) {
-    console.error(
-      "Failed to parse Gemini JSON:",
-      textContent.substring(0, 500)
-    );
-    throw new Error(
-      `Failed to parse Gemini JSON: ${error.message}`
-    );
-  }
+        const textContent = result.response.text();
+        const parsedJson = JSON.parse(textContent);
+        return parsedJson.records || [];
+    } catch (error) {
+        console.error("Extraction error:", error);
+        return [];
+    }
 }

@@ -6,10 +6,19 @@ const AMLC_SOURCE_URL =
 
 const AMLC_BASE_URL = 'http://www.amlc.gov.ph';
 
-// Use /tmp on Vercel (serverless environment), otherwise use local data directory
-const DATA_DIR = process.env.VERCEL
-  ? path.join('/tmp', 'sanction-list-data')
-  : path.join(__dirname, '..', '..', 'data');
+function resolveDataDir() {
+  if (process.env.SANCTION_DATA_DIR) {
+    return process.env.SANCTION_DATA_DIR;
+  }
+
+  if (process.env.VERCEL) {
+    return path.join('/tmp', 'sanction-list-data');
+  }
+
+  return path.join(__dirname, '..', '..', 'data');
+}
+
+const DATA_DIR = resolveDataDir();
 
 const CSV_PATH = path.join(DATA_DIR, 'sanctions_list.csv');
 

@@ -1,5 +1,7 @@
+// Default /api for localhost (Vite proxy) and Vercel monorepo deploy.
+// For separate backend host (e.g. Render): set VITE_API_URL=https://your-app.onrender.com
 const API_BASE =
-  import.meta.env.VITE_API_URL || '/api';
+  import.meta.env.VITE_API_URL?.replace(/\/$/, '') || '/api';
 
 export async function fetchSanctionsData() {
   try {
@@ -30,9 +32,7 @@ export async function fetchSanctionsData() {
     return data.records || [];
   } catch (error) {
     console.error('fetchSanctionsData error:', error);
-    throw new Error(
-      `Failed to load sanctions data: ${error.message}`
-    );
+    throw error;
   }
 }
 

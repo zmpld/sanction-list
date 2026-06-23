@@ -1,0 +1,61 @@
+{
+  "name": "sanction-list",
+  "version": "1.0.0",
+  "description": "AMLC sanctions monitoring desktop app",
+  "main": "electron/main.js",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "build:frontend": "cd frontend && cross-env VITE_API_URL=http://127.0.0.1:58392/api npm run build",
+    "dev:electron": "cross-env VITE_API_URL=http://127.0.0.1:58392/api npm run build:frontend && electron .",
+    "build:exe": "npm run build:frontend && electron-builder --win",
+    "build:electron": "npm run build:frontend && electron-builder"
+  },
+  "build": {
+    "appId": "com.sanctionlist.monitor",
+    "productName": "Sanction List Monitor",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "backend",
+        "to": "backend",
+        "filter": [
+          "**/*",
+          "!**/.env"
+        ]
+      },
+      {
+        "from": "frontend/dist",
+        "to": "frontend-dist"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "electron": "^35.7.5",
+    "electron-builder": "^25.1.8"
+  }
+}
